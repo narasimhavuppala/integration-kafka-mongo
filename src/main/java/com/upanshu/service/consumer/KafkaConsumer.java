@@ -29,7 +29,7 @@ public class KafkaConsumer {
     @KafkaListener(topics = "${spring.kafka.template.default-topic}",concurrency = "3",groupId = "group_id" )
     public void consume(@Payload ConsumerRecord<String,Protagonist> payload, Acknowledgment ack) {
         logger.info("Consumed Message from show -> {}", payload.value().getShowName());
-        ProtagonistInformation protagonistInformation = eventMapper.mapProtagonistToProtagonistInformation(protagonist);
+        ProtagonistInformation protagonistInformation = eventMapper.mapProtagonistToProtagonistInformation(payload.value());
         protagonistDao.insertProtagonistData(protagonistInformation);
         logger.info("Message received from consumer 1");
     }
